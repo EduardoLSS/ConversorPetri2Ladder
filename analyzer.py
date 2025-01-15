@@ -1,7 +1,8 @@
 
 import re
-import AST as AST
+import AST
 import Petri
+
 def analyze_net(petrinet):
   # Validate Petri Net
   for arc in petrinet.arcs:
@@ -9,16 +10,19 @@ def analyze_net(petrinet):
     hasPlaceDestination = [place for place in petrinet.places if arc.destination_id == place.id]
     hasTransitionSource = [transition for transition in petrinet.transitions if arc.source_id == transition.id]
     hasTransitionDestination = [transition for transition in petrinet.transitions if arc.destination_id == transition.id]
+
   if hasPlaceSource and hasPlaceDestination:
     raise ValueError("Petri Net not suported")
   if hasTransitionSource and hasTransitionDestination:
     raise ValueError("Petri Net not suported")
+  
   # Construct Symbols
   arc_destinations = [arc.destination_id for arc in petrinet.arcs]
   arc_sources = [arc.source_id for arc in petrinet.arcs]
   flags_places = [place for place in petrinet.places if place.id in arc_destinations and place.id in arc_sources]
   input_places = [place for place in petrinet.places if place.id not in arc_destinations and place.id in arc_sources]
   laddernetList = []
+
   for transition in petrinet.transitions:
     arcs_input = [arc.source_id for arc in petrinet.arcs if arc.destination_id == transition.id]
     normal_inputs = [place for place in petrinet.places if place.id in arcs_input and not arc.negated]

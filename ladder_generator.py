@@ -2,7 +2,7 @@
 #!/usr/bin/env python3
 import xml.etree.ElementTree as ElementTree
 import copy
-import AST as AST
+import AST
 
 localId = 3
 rightTrailOffset = 300
@@ -18,15 +18,15 @@ def generate_xml(ast, filepath):
 
 def xmlFileHeader(root):
   header = ElementTree.SubElement(root,'fileHeader')
-  header.set('companyName','Desconhecido')
-  header.set('productName','Sem nome')
+  header.set('companyName','UFSCar')
+  header.set('productName','Conversor PNML2Ladder')
   header.set('productVersion','1')
-  header.set('creationDateTime','1970-01-01T12:13:12')
+  header.set('creationDateTime','15-01-2015T12:13:14')
 
 def xmlContentHeader(root):
   header = ElementTree.SubElement(root,'contentHeader')
   header.set('name','Desconhecido')
-  header.set('modificationDateTime','1970-01-01T12:14:12')
+  header.set('modificationDateTime','15-01-2025T12:13:14')
   info = ElementTree.SubElement(header, 'coordinateInfo')
   pageSize = ElementTree.SubElement(info,'pageSize')
   pageSize.set('x','3000')
