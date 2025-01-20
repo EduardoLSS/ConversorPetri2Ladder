@@ -5,7 +5,7 @@ import copy
 import AST
 
 localId = 3
-righTrailOffset = 300
+rightTrailOffset = 300
 positionX = 256
 positionY = 150
 
@@ -131,9 +131,9 @@ def xmlCoil(root, conn,rightTrail, previousId, previousPos, line, offset, isSet)
     coil.set('storage','set')
   else:
     coil.set('storage','reset')
-  x,y = xmlContactCoilPosition(coil,line,offset)
+  x,y = xmlContactCoilPosition(coil,line,offset,1)
   previousX, previousY = previousPos
-  xmlContactCoilConnectionIn(coil,previousId,(previousX+21, previousY),(x,y), True)
+  xmlContactCoilConnectionIn(coil,previousId,(previousX + 21, previousY),(x,y), True)
   xmlContactCoilConnectionOut(coil)
   xmlContactCoilName(coil, conn.identifier)
   xmlContactCoilSize(coil)
@@ -174,8 +174,11 @@ def contactCoilPosition(line, offset):
   x = (offset + 1) * 60 + positionX
   return (x,y)
 
-def xmlContactCoilPosition(root, line, offset):
+def xmlContactCoilPosition(root, line, offset, isCoil = 0):
+  global positionX, rightTrailOffset
   x,y = contactCoilPosition(line,offset)
+  if isCoil == 1:
+    x = positionX + rightTrailOffset - 60
   xmlPosition(root, x, y)
   return x,y
 
