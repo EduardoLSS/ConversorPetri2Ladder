@@ -19,17 +19,15 @@ def main(page: Page):
     destination_file_path = ""
 
     xml_content = TextField(label="Arquivo XML (PNML)", multiline=True, width=700, height=400)
-    converted_content = TextField(label="Arquivo Convertido", multiline=True, width=700, height=400)
-    graph_image = Image(width=700, height=400)
+    graph_image = Image(width=600, height=800)
 
     def show_dialog(title, text):
         dialog = ft.AlertDialog(
             title=ft.Text(title),
             content=ft.Text(text),
-            actions=[ft.TextButton("OK", on_click=lambda e: close_dialog(dialog, page))],
+            actions=[ft.TextButton("Clique fora da caixa para sair", on_click=lambda e: close_dialog(dialog, page))],
         )
         page.overlay.append(dialog)
-        #page.dialog = dialog
         dialog.open = True
         page.update()
 
@@ -128,7 +126,7 @@ def main(page: Page):
                     [
                         btn_select_file,
                         xml_content,
-                        graph_image  # Adiciona a imagem do gráfico abaixo do conteúdo XML
+                        btn_convert
                     ],
                     alignment=MainAxisAlignment.START,
                     horizontal_alignment=CrossAxisAlignment.CENTER
@@ -136,8 +134,7 @@ def main(page: Page):
                 VerticalDivider(),
                 Column(
                     [
-                        btn_convert,
-                        converted_content
+                        graph_image
                     ],
                     alignment=MainAxisAlignment.START,
                     horizontal_alignment=CrossAxisAlignment.CENTER
