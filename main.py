@@ -67,10 +67,6 @@ def main(page: Page):
             except Exception as ex:
                 print(f"Erro na conversão do arquivo: {ex.stderr}")
 
-    #def convert_pnml(xml_str):
-        #p2l.mainrun(xml_str)
-        #return xml_str.replace('<pnml>', '<converted_pnml>')
-
     def display_graph(xml_str):
         try:
             dot = pnml_to_dot(xml_str)
@@ -89,6 +85,7 @@ def main(page: Page):
         try:
             root = ET.fromstring(xml_str)
             dot = ['digraph G {']
+            dot.append('    rankdir=TB;')
 
             # Mapeia os nós
             nodes = {}
@@ -101,6 +98,10 @@ def main(page: Page):
                 transition_id = transition.get('id')
                 nodes[transition_id] = transition_id
                 dot.append(f'    {transition_id} [shape=box,label="{transition_id}"];')
+         
+            top_node = "P0" if "P0" in nodes else "P1" if "P1" in nodes else None
+            if top_node:
+                dot.append(f'    {{rank=source; {top_node};}}')
 
             # Mapeia as arestas
             for arc in root.findall(".//arc"):

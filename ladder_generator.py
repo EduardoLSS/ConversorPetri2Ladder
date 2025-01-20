@@ -5,7 +5,7 @@ import copy
 import AST
 
 localId = 3
-rightTrailOffset = 300
+righTrailOffset = 300
 positionX = 256
 positionY = 150
 
@@ -21,12 +21,12 @@ def xmlFileHeader(root):
   header.set('companyName','UFSCar')
   header.set('productName','Conversor PNML2Ladder')
   header.set('productVersion','1')
-  header.set('creationDateTime','15-01-2015T12:13:14')
+  header.set('creationDateTime','2025-01-15T12:13:14')
 
 def xmlContentHeader(root):
   header = ElementTree.SubElement(root,'contentHeader')
   header.set('name','Desconhecido')
-  header.set('modificationDateTime','15-01-2025T12:13:14')
+  header.set('modificationDateTime','2025-01-15T12:13:14')
   info = ElementTree.SubElement(header, 'coordinateInfo')
   pageSize = ElementTree.SubElement(info,'pageSize')
   pageSize.set('x','3000')
@@ -64,7 +64,12 @@ def xmlLeftTrail(root, ast):
   leftTrail.set('height',str(current_size+20))
 
 def calculateRightTrailDistance(ast):
-  rightTrailOffset = 300
+  global rightTrailOffset
+  maxLength = 0
+  for conditionList in ast:
+    if len(conditionList.conditions) > maxLength:
+      maxLength = len(conditionList.conditions)
+  rightTrailOffset = 300 + 30 * (maxLength + 1)
 
 def xmlRightTrail(root, ast):
   rightTrail = ElementTree.SubElement(root, 'rightPowerRail')

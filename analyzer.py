@@ -39,12 +39,12 @@ def analyze_net(petrinet):
     negatedConditions = [AST.Input(place.id, True) for place in negated_inputs]
     resetOutputList = [AST.ResetOutput(place.id) for place in normal_inputs if place in flags_places]
     setOutputList = [AST.SetOutput(place.id) for place in outputs]
-    outTransition = outputForTransition(transition)
 
+    outTransition = outputForTransition(transition)
     if isinstance(outTransition,AST.SetOutput):
-      setOutputList.append(outTransition)
+      setOutputList.insert(0, outTransition)
     if isinstance(outTransition,AST.ResetOutput):
-      resetOutputList.append(outTransition)
+      resetOutputList.insert(0, outTransition)
 
     conditions = normalConditions
     conditions.extend(negatedConditions)
@@ -52,17 +52,20 @@ def analyze_net(petrinet):
     laddernet = AST.LadderNet(conditions, setOutputList, resetOutputList)
     laddernetList.append(laddernet)
 
-  return laddernetList
+  return sorted(
+    laddernetList,
+    key=lambda item: (
+      min(
+        (int(input.identifier[1:]) for input in item.conditions if input.identifier.startswith('P')),
+        default=float('inf')
+      )
+    )
+  )
 
 def outputForTransition(transition):
-  regex = re.compile(r".*\((.*) - (.*)\)")
-  match = regex.match(transition.id)
-  if match is None:
-    return None
-
-  isSet = match.group(1) != 'R'
-  output = match.group(1)
-  if isSet:
-    return AST.SetOutput(output)
+  if transition.id.startswith('S'):
+    return AST.SetOutput(transition.id)
+  elif transition.id.startswith('R'):
+    return AST.ResetOutput(transition.id)
   else:
-    return AST.ResetOutput(output)
+    return None
