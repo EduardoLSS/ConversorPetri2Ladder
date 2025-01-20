@@ -63,7 +63,7 @@ def analyze_net(petrinet):
   )
 
 def outputForTransition(transition):
-  if transition.id.startswith('S'):
+  if transition.id.startswith('S') or transition.id.startswith('C'):
     return AST.SetOutput(transition.id)
   elif transition.id.startswith('R'):
     return AST.ResetOutput(transition.id)
