@@ -1,0 +1,5 @@
+Devido ao tamanho do instalador, não foi possível subí-lo no GitHub, segue link para download da versão: 
+https://github.com/beremiz/beremiz/releases/download/1.3-beta.22.05.26/Beremiz-22.05.26.exe
+
+Caso retirem essa versão, é possível buscar outros links em:
+https://beremiz.org/get
